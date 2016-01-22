@@ -1,0 +1,7 @@
+gitbucket:
+  image: harupong/gitbucket
+  ports:
+   - "8080:8080"
+   - "29418:29418"
+  volumes:
+   - ~/.gitbucket:/gitbucket
