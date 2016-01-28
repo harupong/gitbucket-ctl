@@ -4,7 +4,8 @@ MAINTAINER harupong <harupong [at] gmail.com>
 
 RUN apk --update add openjdk8-jre && rm -rf /var/cache/apk/*
 
-ADD https://github.com/gitbucket/gitbucket/releases/download/3.10.1/gitbucket.war /opt/gitbucket.war
+ENV GB_VERSION="3.10.1"
+ADD https://github.com/gitbucket/gitbucket/releases/download/$GB_VERSION/gitbucket.war /opt/gitbucket.war
 
 RUN ln -s /gitbucket /root/.gitbucket
 VOLUME /gitbucket
