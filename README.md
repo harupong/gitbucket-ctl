@@ -1,17 +1,30 @@
-# 個人用のGitBucketを管理するためのツール
+# Minimal Docker image for GitBucket
 
-- Dockerを使って、GitBucketをすぐ立ち上げられるようにする
-- `docker compose` を使って、Dockerの起動オプションで迷わなくて済むようにする
-- rcloneを使って、GitBucketのデータをまるごとクラウドにバックアップする
-
-## Dockerを使ってGitBucketを立ち上げる
+## Initial Setup
+### To make GitBucket data persistent in your host $HOME directory
 
 ```
-docker-compose up -d
+docker run -v "$HOME/.gitbucket:/root/.gitbucket" --name gitbucket -p 8080:8080 harupong/gitbucket 
 ```
 
-### rcloneを使ってバックアップする
+### To keep GitBucket data persistent as Docker volume
 
 ```
-./data-backup.sh
+docker volume create --name gb-data
+docker run -v gb-data:/root/.gitbucket --name gitbucket -p 8080:8080 harupong/gitbucket 
 ```
+
+## Start a container
+### If your container is stopped(e.g. host reboot)
+
+`docker start <ID of stopped container>` to restart it.
+
+### If your container is deleted
+
+Execute the `docker run` command described above that fits your use case.
+
+## Backup 
+
+If you are keeping your data in your $HOME directory, then just make a copy of `.gitbucket` directory as backup.
+
+If you've created a docker volume for your data, then [read the official document](https://docs.docker.com/engine/userguide/containers/dockervolumes/) to properly backup the volume.
