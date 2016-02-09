@@ -1,21 +1,27 @@
 # Minimal Docker image for GitBucket
 
 ## Initial Setup
+
+These steps launch containers:
+
+- detached.
+- that automatically restart unless stopped.
+
 ### To make GitBucket data persistent in your host $HOME directory
 
 ```
-docker run -v "$HOME/.gitbucket:/root/.gitbucket" --name gitbucket -p 8080:8080 harupong/gitbucket 
+docker run -d --restart="unless-stopped" -v "$HOME/.gitbucket:/root/.gitbucket" --name gitbucket -p 8080:8080 harupong/gitbucket 
 ```
 
 ### To keep GitBucket data persistent as Docker volume
 
 ```
 docker volume create --name gb-data
-docker run -v gb-data:/root/.gitbucket --name gitbucket -p 8080:8080 harupong/gitbucket 
+docker run -d --restart="unless-stopped" -v gb-data:/root/.gitbucket --name gitbucket -p 8080:8080 harupong/gitbucket 
 ```
 
 ## Start a container
-### If your container is stopped(e.g. host reboot)
+### If you've stopped the container
 
 `docker start <ID of stopped container>` to restart it.
 
